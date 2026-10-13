@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sutra Vault | Suzani Design Finder</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--ink:#21352d;--paper:#f7f5ef;--card:#fffefa;--muted:#6d786f;--line:#dedfd6;--accent:#b77b4b;--soft:#e9eee8;--danger:#a83f35}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:10px;padding:10px 14px;background:var(--ink);color:white;font-weight:650}button.secondary{background:#e8e9e1;color:var(--ink);border:1px solid var(--line)}button.danger{background:var(--danger)}button:disabled{opacity:.5;cursor:not-allowed}
+.top{background:var(--ink);color:#fff;padding:20px max(20px,calc((100% - 1240px)/2));display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}.brand{display:flex;gap:12px;align-items:center}.mark{width:44px;height:44px;border-radius:13px;background:#e9dfc9;color:var(--ink);display:grid;place-items:center;font-size:24px}.brand h1{font-size:21px;margin:0}.brand p{margin:2px 0 0;color:#d5ded5;font-size:12px}.top-actions{display:flex;gap:8px;flex-wrap:wrap}.top button{background:#f5f1e7;color:var(--ink)}main{max-width:1240px;margin:auto;padding:24px 18px 60px}.notice{background:#fff4df;border:1px solid #e9d2a8;padding:12px 14px;border-radius:12px;margin-bottom:18px;color:#644a25}.notice.good{background:#eaf4e9;border-color:#c5dfc3;color:#2d5a33}.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:18px 0}.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}.stat b{font-size:25px;display:block}.stat span{font-size:12px;color:var(--muted)}.toolbar{display:grid;grid-template-columns:minmax(200px,1fr) auto auto;gap:9px;margin:18px 0}.field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}.field label{font-size:12px;font-weight:750;color:#4f5c52}.field input,.field select,.field textarea,.searchbox{border:1px solid #d7dbd1;background:white;border-radius:10px;padding:11px 12px;min-width:0;width:100%;color:var(--ink)}.searchbox{font-size:15px}.sectionhead{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:24px 0 12px}.sectionhead h2{margin:0;font-size:19px}.results{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.design{background:var(--card);border:1px solid var(--line);border-radius:15px;overflow:hidden;display:flex;flex-direction:column;min-width:0}.thumb{height:200px;background:#eeeee8;display:grid;place-items:center;overflow:hidden}.thumb img{width:100%;height:100%;object-fit:contain}.thumb .placeholder{color:#a3a99f;font-size:42px}.designbody{padding:13px;display:flex;flex-direction:column;gap:7px;flex:1}.designbody h3{font-size:16px;margin:0;overflow-wrap:anywhere}.muted{color:var(--muted);font-size:12px}.location{background:var(--soft);padding:8px 9px;border-radius:8px;font-size:12px;margin-top:2px}.tags{display:flex;flex-wrap:wrap;gap:5px}.tag{font-size:11px;background:#f0e6d9;color:#77502e;padding:3px 7px;border-radius:20px}.cardactions{display:flex;gap:7px;margin-top:auto;padding-top:7px}.cardactions button{flex:1;padding:8px;font-size:12px}.empty{border:1px dashed #c8cec4;border-radius:15px;padding:45px 20px;text-align:center;color:var(--muted);grid-column:1/-1}.empty strong{display:block;color:var(--ink);font-size:18px;margin-bottom:5px}.overlay{position:fixed;inset:0;background:#13221dcc;display:none;align-items:center;justify-content:center;padding:18px;z-index:10;overflow:auto}.modal{background:var(--card);width:min(680px,100%);max-height:94vh;overflow:auto;border-radius:18px;padding:22px}.modalhead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}.modalhead h2{margin:0}.close{background:#e8e9e1;color:var(--ink);padding:7px 11px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}.wide{grid-column:1/-1}.preview{max-height:190px;max-width:100%;object-fit:contain;border-radius:10px;background:#efefe9;display:none;margin:8px 0}.formactions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;margin-top:16px}.status{font-size:13px;color:var(--muted);min-height:20px;margin:8px 0}.auth{max-width:440px;margin:35px auto;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px}.auth h2{margin-top:0}.hidden{display:none!important}.footer{font-size:12px;color:var(--muted);text-align:center;padding:24px}
+@media(max-width:950px){.results{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:650px){.results{grid-template-columns:repeat(2,minmax(0,1fr))}.thumb{height:155px}.toolbar{grid-template-columns:1fr 1fr}.toolbar .searchwrap{grid-column:1/-1}.stats{gap:7px}.stat{padding:11px}.stat b{font-size:21px}.formgrid{grid-template-columns:1fr}.wide{grid-column:auto}.top{padding:16px}.brand h1{font-size:18px}}@media(max-width:390px){.results{grid-template-columns:1fr}.thumb{height:210px}}
+</style>
+</head>
+<body>
+<header class="top">
+ <div class="brand"><div class="mark">✿</div><div><h1>Sutra Vault</h1><p>Suzani Butter-Paper Design Finder</p></div></div>
+ <div class="top-actions"><button id="addBtn">＋ Add design</button><button id="exportBtn">Export backup</button><button id="csvBtn">Export CSV</button><button id="restoreOpenBtn" class="secondary">Import backup</button><button id="signOutBtn" class="hidden">Sign out</button></div>
+</header>
+<main>
+ <div id="setupNotice" class="notice">Setup needed: open <b>config.js</b> and add your Supabase project URL and public anon key. Follow SETUP.md. Your catalog will then sync across devices.</div>
+ <section id="authSection" class="auth hidden">
+   <h2>Workshop sign in</h2><p class="muted">Use the same account on every device to see the same catalog.</p>
+   <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com"></div>
+   <div class="field"><label>Password</label><input id="authPassword" type="password" autocomplete="current-password" placeholder="At least 8 characters"></div>
+   <div style="display:flex;gap:8px;flex-wrap:wrap"><button id="signInBtn">Sign in</button><button id="signUpBtn" class="secondary">Create account</button></div>
+   <div id="authStatus" class="status"></div>
+ </section>
+ <section id="appSection" class="hidden">
+   <div id="appNotice" class="notice good">Your catalog is connected. Add a photo and record the exact physical paper location before saving.</div>
+   <div class="stats"><div class="stat"><b id="totalCount">0</b><span>DESIGNS IN CATALOG</span></div><div class="stat"><b id="rollCount">0</b><span>ROLLS REPRESENTED</span></div><div class="stat"><b id="locatedCount">0</b><span>DESIGNS WITH A LOCATION</span></div></div>
+   <div class="toolbar">
+    <div class="searchwrap"><input id="searchInput" class="searchbox" placeholder="Search ID, name, flower, motif, roll…"></div>
+    <button id="imageSearchBtn" class="secondary">⌕ Find by image</button>
+    <button id="clearSearchBtn" class="secondary">Clear</button>
+   </div>
+   <input type="file" id="referenceFile" accept="image/*" class="hidden">
+   <div id="imageSearchStatus" class="status"></div>
+   <div class="sectionhead"><h2 id="resultsTitle">All designs</h2><span id="resultCount" class="muted"></span></div>
+   <div id="results" class="results"><div class="empty"><strong>Your design library starts here</strong>Add your first butter-paper photo to make it searchable.</div></div>
+ </section>
+ <div class="footer">Sutra Vault · Keep design IDs and physical roll labels consistent for fastest retrieval.</div>
+</main>
+<div class="overlay" id="designOverlay"><div class="modal">
+ <div class="modalhead"><h2 id="modalTitle">Add a design</h2><button class="close" id="closeModal">✕</button></div>
+ <form id="designForm">
+  <input type="hidden" id="editId">
+  <div class="formgrid">
+   <div class="field"><label>Design ID *</label><input id="designCode" required placeholder="SZ-0001"></div>
+   <div class="field"><label>Design name *</label><input id="designName" required placeholder="Large lotus border"></div>
+   <div class="field wide"><label>Photo of butter-paper sketch *</label><input id="designImage" type="file" accept="image/*"><img id="imagePreview" class="preview" alt="Selected design preview"><span class="muted">Use a clear, well-lit photo. The image is kept in private cloud storage.</span></div>
+   <div class="field"><label>Keywords / motifs</label><input id="designTags" placeholder="lotus, vine, border, floral"></div>
+   <div class="field"><label>Design type</label><select id="designType"><option value="">Choose type</option><option>Floral</option><option>Geometric</option><option>Border</option><option>All-over</option><option>Buti / motif</option><option>Animal / bird</option><option>Other</option></select></div>
+   <div class="field"><label>Roll ID *</label><input id="rollNo" required placeholder="R-003"><span class="muted">Permanent ID printed on the roll label, e.g. R-001.</span></div>
+   <div class="field"><label>Rack / shelf (optional)</label><input id="rackNo" placeholder="A-02"></div>
+   <div class="field"><label>Sheet number *</label><input id="paperNo" required placeholder="S-027"><span class="muted">Count from the marked starting end of the roll. Keep the same sheet number until the sheet is moved.</span></div>
+   <div class="field"><label>Batch / separator (optional)</label><input id="sectionNo" placeholder="Batch 2 / Tab 10"></div>
+   <div class="field wide"><label>Notes</label><textarea id="designNotes" rows="2" placeholder="Size, customer, colorway, related design…"></textarea></div>
+  </div>
+  <div id="formStatus" class="status"></div><div class="formactions"><button type="button" class="secondary" id="cancelBtn">Cancel</button><button type="submit" id="saveBtn">Save design</button></div>
+ </form>
+</div></div>
+<div class="overlay" id="backupOverlay"><div class="modal"><div class="modalhead"><h2>Restore a backup</h2><button class="close" id="closeBackup">✕</button></div><p>Import a previously exported Sutra Vault JSON backup. Existing designs with matching IDs will be skipped. Photos already in the cloud are not re-uploaded by JSON restore, so this is best for metadata recovery.</p><input type="file" id="backupFile" accept=".json,application/json"><div id="backupStatus" class="status"></div><div class="formactions"><button id="restoreBtn">Restore backup</button></div></div></div>
+<script src="config.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+let supabaseClient=null, designs=[], currentUser=null, selectedImageFile=null, previewUrl=null, imageQueryActive=false;
+const cfg=window.SUTRA_CONFIG||{};
+const configured=cfg.url&&cfg.anonKey&&!cfg.url.includes("YOUR_")&&!cfg.anonKey.includes("YOUR_");
+if(configured){supabaseClient=window.supabase.createClient(cfg.url,cfg.anonKey);$("setupNotice").classList.add("hidden");}
+else {$("authSection").classList.add("hidden");$("appSection").classList.remove("hidden");$("appNotice").innerHTML="Preview mode: configure <b>config.js</b> and follow <b>SETUP.md</b> to enable cloud sync. Nothing is saved in this preview mode."; $("addBtn").disabled=true;$("imageSearchBtn").disabled=true;$("exportBtn").disabled=true;$("csvBtn").disabled=true;}
+function status(el,msg){$(el).textContent=msg||""}
+function safe(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function loc(d){return [d.roll_no,d.rack_no,d.paper_no,d.section_no].filter(Boolean).join(" · ")}
+function keywords(d){return [d.design_code,d.design_name,d.tags,d.design_type,d.roll_no,d.rack_no,d.paper_no,d.section_no,d.notes].filter(Boolean).join(" ").toLowerCase()}
+function updateStats(){ $("totalCount").textContent=designs.length; $("rollCount").textContent=new Set(designs.map(d=>d.roll_no).filter(Boolean)).size; $("locatedCount").textContent=designs.filter(d=>d.roll_no&&d.paper_no).length;}
+function render(list=designs){
+ updateStats();$("resultCount").textContent=list.length+" result"+(list.length===1?"":"s");
+ if(!list.length){$("results").innerHTML='<div class="empty"><strong>No matching designs found</strong>Try another keyword or add the sketch to your catalog.</div>';return;}
+ $("results").innerHTML=list.map(d=>`<article class="design"><div class="thumb">${d.image_url?`<img src="${safe(d.image_url)}" alt="${safe(d.design_name)}" loading="lazy">`:'<div class="placeholder">✿</div>'}</div><div class="designbody"><h3>${safe(d.design_code)} · ${safe(d.design_name)}</h3><div class="muted">${safe(d.design_type||"Uncategorised")}</div><div class="location">⌖ ${safe(loc(d)||"Location not recorded")}</div>${d.tags?`<div class="tags">${d.tags.split(",").slice(0,4).map(t=>`<span class="tag">${safe(t.trim())}</span>`).join("")}</div>`:""}${d.notes?`<div class="muted">${safe(d.notes)}</div>`:""}<div class="cardactions"><button class="secondary" data-edit="${safe(d.id)}">Edit</button><button class="secondary" data-copy="${safe(d.id)}">Copy ID</button></div></div></article>`).join("");
+ document.querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>openEdit(b.dataset.edit));
+ document.querySelectorAll("[data-copy]").forEach(b=>b.onclick=async()=>{let d=designs.find(x=>x.id===b.dataset.copy);try{await navigator.clipboard.writeText(d.design_code);b.textContent="Copied!";setTimeout(()=>b.textContent="Copy ID",900)}catch{prompt("Design ID",d.design_code)}});
+}
+async function loadDesigns(){if(!supabaseClient||!currentUser)return; $("results").innerHTML='<div class="empty">Loading your catalog…</div>';let {data,error}=await supabaseClient.from("designs").select("*").order("design_code");if(error){$("appNotice").textContent="Could not load catalog: "+error.message;return;}designs=data||[];render(filterDesigns());}
+function filterDesigns(){let q=$("searchInput").value.trim().toLowerCase();let list=designs.filter(d=>keywords(d).includes(q));$("resultsTitle").textContent=q?"Search results":"All designs";return list}
+$("searchInput").addEventListener("input",()=>{imageQueryActive=false;status("imageSearchStatus","");render(filterDesigns())});
+$("clearSearchBtn").onclick=()=>{$("searchInput").value="";imageQueryActive=false;status("imageSearchStatus","");render(filterDesigns())};
+function openModal(){ $("designOverlay").style.display="flex"; document.body.style.overflow="hidden"}
+function closeModal(){ $("designOverlay").style.display="none";document.body.style.overflow="";$("designForm").reset();$("editId").value="";selectedImageFile=null;if(previewUrl)URL.revokeObjectURL(previewUrl);previewUrl=null;$("imagePreview").style.display="none";$("modalTitle").textContent="Add a design";$("saveBtn").textContent="Save design";status("formStatus","")}
+$("addBtn").onclick=()=>{if(!supabaseClient||!currentUser)return;closeModal();openModal();$("designCode").value="SZ-"+String(Math.max(0,...designs.map(d=>parseInt((d.design_code||"").match(/(\d+)$/)?.[1]||0))+1).padStart(4,"0"));$("designName").focus()};
+$("closeModal").onclick=$("cancelBtn").onclick=closeModal;
+$("designImage").onchange=()=>{selectedImageFile=$("designImage").files[0]||null;if(!selectedImageFile)return;if(previewUrl)URL.revokeObjectURL(previewUrl);previewUrl=URL.createObjectURL(selectedImageFile);$("imagePreview").src=previewUrl;$("imagePreview").style.display="block";checkDuplicate(selectedImageFile)};
+function openEdit(id){let d=designs.find(x=>x.id===id);if(!d)return;closeModal();openModal();$("modalTitle").textContent="Edit "+d.design_code;$("saveBtn").textContent="Save changes";$("editId").value=d.id;$("designCode").value=d.design_code;$("designName").value=d.design_name;$("designTags").value=d.tags||"";$("designType").value=d.design_type||"";$("rollNo").value=d.roll_no||"";$("rackNo").value=d.rack_no||"";$("paperNo").value=d.paper_no||"";$("sectionNo").value=d.section_no||"";$("designNotes").value=d.notes||"";if(d.image_url){$("imagePreview").src=d.image_url;$("imagePreview").style.display="block";}}
+function getHash(file){return new Promise((resolve,reject)=>{let img=new Image(),url=URL.createObjectURL(file);img.onload=()=>{let c=document.createElement("canvas");c.width=9;c.height=8;let x=c.getContext("2d",{willReadFrequently:true});x.drawImage(img,0,0,9,8);let data=x.getImageData(0,0,9,8).data,bits="";for(let y=0;y<8;y++)for(let xx=0;xx<8;xx++){let a=(y*9+xx)*4,b=(y*9+xx+1)*4;let lum=(i)=>.299*data[i]+.587*data[i+1]+.114*data[i+2];bits+=lum(a)>lum(b)?"1":"0"}URL.revokeObjectURL(url);resolve(bits)};img.onerror=()=>{URL.revokeObjectURL(url);reject(Error("Could not read image"))};img.src=url})}
+function hashUrl(url){return new Promise((resolve,reject)=>{let img=new Image();img.crossOrigin="anonymous";img.onload=()=>{try{let c=document.createElement("canvas");c.width=9;c.height=8;let x=c.getContext("2d",{willReadFrequently:true});x.drawImage(img,0,0,9,8);let data=x.getImageData(0,0,9,8).data,bits="";for(let y=0;y<8;y++)for(let xx=0;xx<8;xx++){let a=(y*9+xx)*4,b=(y*9+xx+1)*4;let lum=i=>.299*data[i]+.587*data[i+1]+.114*data[i+2];bits+=lum(a)>lum(b)?"1":"0"}resolve(bits)}catch(e){reject(e)}};img.onerror=()=>reject(Error("Image unavailable"));img.src=url})}
+function distance(a,b){let n=0;for(let i=0;i<Math.min(a.length,b.length);i++)if(a[i]!==b[i])n++;return n}
+async function checkDuplicate(file){try{let h=await getHash(file),hits=[];for(let d of designs){if(!d.image_url)continue;try{let dh=await hashUrl(d.image_url);let dist=distance(h,dh);if(dist<=10)hits.push({d,dist})}catch{}}hits.sort((a,b)=>a.dist-b.dist);if(hits.length)status("formStatus","Possible duplicate: "+hits.slice(0,3).map(x=>x.d.design_code+" ("+x.d.design_name+")").join(", ")+". Compare before saving.");}catch{}}
+$("designForm").onsubmit=async e=>{e.preventDefault();if(!supabaseClient||!currentUser)return;let id=$("editId").value,code=$("designCode").value.trim().toUpperCase(),name=$("designName").value.trim();if(designs.some(d=>d.design_code.toLowerCase()===code.toLowerCase()&&d.id!==id)){status("formStatus","That design ID already exists. Choose a unique ID.");return}
+ let old=designs.find(d=>d.id===id),image_url=old?.image_url||null;
+ $("saveBtn").disabled=true;status("formStatus","Saving design…");
+ try{
+ if(selectedImageFile){let ext=(selectedImageFile.name.split(".").pop()||"jpg").replace(/[^a-z0-9]/gi,"").toLowerCase()||"jpg";let path=currentUser.id+"/"+crypto.randomUUID()+"."+ext;let {error:upErr}=await supabaseClient.storage.from("design-images").upload(path,selectedImageFile,{upsert:false,contentType:selectedImageFile.type||"image/jpeg"});if(upErr)throw upErr;let {data:urlData,error:urlErr}=await supabaseClient.storage.from("design-images").createSignedUrl(path,60*60*24*30);if(urlErr)throw urlErr;image_url=urlData.signedUrl;}
+ let row={user_id:currentUser.id,design_code:code,design_name:name,tags:$("designTags").value.trim(),design_type:$("designType").value,roll_no:$("rollNo").value.trim(),rack_no:$("rackNo").value.trim(),paper_no:$("paperNo").value.trim(),section_no:$("sectionNo").value.trim(),notes:$("designNotes").value.trim(),image_url};
+ let res=id?await supabaseClient.from("designs").update(row).eq("id",id).select().single():await supabaseClient.from("designs").insert(row).select().single();if(res.error)throw res.error;
+ closeModal();await loadDesigns();status("imageSearchStatus","Saved "+code+".");
+ }catch(err){status("formStatus","Save failed: "+(err.message||err));}finally{$("saveBtn").disabled=false}
+};
+$("imageSearchBtn").onclick=()=>$("referenceFile").click();
+$("referenceFile").onchange=async()=>{let f=$("referenceFile").files[0];if(!f)return;status("imageSearchStatus","Comparing reference image with catalog sketches…");let q;try{q=await getHash(f)}catch{status("imageSearchStatus","Could not read that image.");return}let scored=[];for(let d of designs){if(!d.image_url)continue;try{let h=await hashUrl(d.image_url);scored.push({d,score:distance(q,h)})}catch{}}scored.sort((a,b)=>a.score-b.score);let best=scored.filter(x=>x.score<=24).slice(0,30);imageQueryActive=true;$("resultsTitle").textContent="Visual matches";status("imageSearchStatus",best.length?`Showing ${best.length} closest visual matches. Lower distance means a closer image pattern; confirm by eye.`:"No close visual matches found. Try a clearer, similarly framed sketch or search by keywords.");render(best.map(x=>x.d));$("referenceFile").value=""};
+$("exportBtn").onclick=()=>{let blob=new Blob([JSON.stringify({format:"sutra-vault-backup-v1",exported_at:new Date().toISOString(),designs},null,2)],{type:"application/json"});downloadBlob(blob,"sutra-vault-backup-"+new Date().toISOString().slice(0,10)+".json")};
+$("csvBtn").onclick=()=>{let cols=["design_code","design_name","tags","design_type","roll_no","rack_no","paper_no","section_no","notes","image_url"];let csv=[cols.join(","),...designs.map(d=>cols.map(k=>'"'+String(d[k]??"").replace(/"/g,'""')+'"').join(","))].join("\r\n");downloadBlob(new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"}),"sutra-vault-designs.csv")};
+function downloadBlob(blob,name){let a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+$("restoreOpenBtn").onclick=()=>$("backupOverlay").style.display="flex";
+$("closeBackup").onclick=()=>$("backupOverlay").style.display="none";
+$("restoreBtn").onclick=async()=>{let f=$("backupFile").files[0];if(!f){status("backupStatus","Choose a JSON backup file first.");return}try{let j=JSON.parse(await f.text());let rows=(j.designs||[]).filter(d=>d.design_code&&d.design_name).map(d=>({user_id:currentUser.id,design_code:d.design_code,design_name:d.design_name,tags:d.tags||"",design_type:d.design_type||"",roll_no:d.roll_no||"",rack_no:d.rack_no||"",paper_no:d.paper_no||"",section_no:d.section_no||"",notes:d.notes||"",image_url:d.image_url||null}));let existing=new Set(designs.map(d=>d.design_code.toLowerCase()));rows=rows.filter(d=>!existing.has(d.design_code.toLowerCase()));if(!rows.length){status("backupStatus","No new design IDs to restore.");return}let {error}=await supabaseClient.from("designs").insert(rows);if(error)throw error;status("backupStatus","Restored "+rows.length+" design records.");await loadDesigns()}catch(e){status("backupStatus","Restore failed: "+e.message)}};
+async function init(){if(!configured)return;const {data:{session}}=await supabaseClient.auth.getSession();setSession(session);supabaseClient.auth.onAuthStateChange((_event,session)=>setSession(session));}
+function setSession(session){currentUser=session?.user||null;$("authSection").classList.toggle("hidden",!!currentUser);$("appSection").classList.toggle("hidden",!currentUser);$("signOutBtn").classList.toggle("hidden",!currentUser);if(currentUser)loadDesigns()}
+$("signInBtn").onclick=async()=>{status("authStatus","Signing in…");let {error}=await supabaseClient.auth.signInWithPassword({email:$("authEmail").value.trim(),password:$("authPassword").value});status("authStatus",error?error.message:"Signed in.")};
+$("signUpBtn").onclick=async()=>{status("authStatus","Creating account…");let {error}=await supabaseClient.auth.signUp({email:$("authEmail").value.trim(),password:$("authPassword").value});status("authStatus",error?error.message:"Account created. If email confirmation is enabled, check your inbox before signing in.")};
+$("signOutBtn").onclick=async()=>{await supabaseClient.auth.signOut();designs=[];render([])};
+init();
+</script>
+</body></html>
